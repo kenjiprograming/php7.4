@@ -4,15 +4,14 @@ services:
 
   php:
     ports:
-      - "8000:80"
+      - "80:80"
     build: ./.docker/php
-    container_name: php_container 
     volumes:
       - ./www/html:/var/www/html
 
   db:
     image: mysql:5.6
-    container_name: db_containe
+    container_name: db_container
     environment:
       MYSQL_ROOT_PASSWORD: root_pass
       MYSQL_DATABASE: db

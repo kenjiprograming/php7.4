@@ -1,18 +1,11 @@
-FROM php:7.4-apache
-
-ADD php.ini /usr/local/etc/php/
-ADD 000-default.conf /etc/apache2/sites-enabled/
-
-RUN cd /usr/bin && curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
+FROM php:7.4.0-apache
 
 RUN apt-get update \
-&& apt-get install -y \
-git \
-zip \
-unzip \
-vim \
-libpng-dev \
-libpq-dev \
-&& docker-php-ext-install pdo_mysql
+  && apt-get install -y zlib1g-dev libpq-dev mariadb-client git vim zip unzip libzip-dev\
+  && docker-php-ext-install zip pdo_mysql mysqli \
+  && docker-php-ext-enable mysqli \
+  && a2enmod rewrite \
+  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN /bin/sh -c a2enmod rewrite
+COPY ./php.ini /usr/local/etc/php/
+COPY 000-default.conf /etc/apache2/sites-enabled/
