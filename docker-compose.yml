@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-
-  php:
+  web:
     ports:
       - "80:80"
     build: ./.docker/php
     volumes:
-      - ./www/html:/var/www/html
+      - ./www:/var/www
+    user: "1001:1001"
 
   db:
     image: mysql:5.6
